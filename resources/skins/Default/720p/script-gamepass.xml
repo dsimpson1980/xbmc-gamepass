@@ -723,9 +723,9 @@
         </control>
         <control type="textbox" id="250">
             <posx>660</posx>
-            <posy>650</posy>
+            <posy>590</posy>
             <width>600</width>
-            <height>60</height>
+            <height>120</height>
             <font>font12</font>
             <align>left</align>
             <textcolor>C0FFFFFF</textcolor>

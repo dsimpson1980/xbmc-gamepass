@@ -124,7 +124,10 @@ class GamepassGUI(xbmcgui.WindowXML):
 
         if overlay_scores:
             self.textbox = self.window.getControl(250)
-            txt = matchups[0][0]['name'] + ' ' + matchups[0][0][points_type]
+            txt = ''
+            for matchup in matchups:
+                txt += ' '.join([matchup[0]['name'], matchup[0][points_type],
+                                'vs', matchup[1][points_type], matchup[1]['name'], '\n'])
             self.textbox.setText(txt)
             self.textbox.setVisible(True)
         try:
