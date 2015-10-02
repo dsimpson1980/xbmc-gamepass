@@ -27,5 +27,6 @@
   </category>
   <category label="30043">
     <setting id="overlay_scores" type="bool" label="30044" default="false" />
+    <setting id="league_key" type="text" label="30045" default="" enable="eq(-1,true)"/>
   </category>
 </settings>

@@ -180,3 +180,7 @@ msgstr ""
 msgctxt "#30044"
 msgid "Overlay Fantasy Football League Scores"
 msgstr ""
+
+msgctxt "#30045"
+msgid "League Key in the form XXX.l.XXXX"
+msgstr ""

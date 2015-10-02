@@ -44,6 +44,8 @@ overlay_scores = addon.getSetting('overlay_scores')
 if overlay_scores:
     y3 = yahoo_tools.get_y3()
     token = yahoo_tools.get_token(y3)
+    league_key = addon.getSetting('league_key')
+    matchups = yahoo_tools.get_matchup_points(y3, token, league_key)
 
 proxy_config = None
 if addon.getSetting('proxy_enabled') == 'true':
@@ -120,7 +122,8 @@ class GamepassGUI(xbmcgui.WindowXML):
 
         if overlay_scores:
             self.textbox = self.window.getControl(250)
-            self.textbox.setText('TEST vs TEST')
+            txt = matchups[0][0]['name'] + ' ' + matchups[0][0]['points']
+            self.textbox.setText(txt)
             self.textbox.setVisible(True)
         try:
             self.setFocus(self.window.getControl(self.focusId))
