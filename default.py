@@ -69,6 +69,7 @@ def addon_log(string):
 
 class GamepassGUI(xbmcgui.WindowXML):
     def __init__(self, *args, **kwargs):
+        self.window = None
         self.season_list = None
         self.season_items = []
         self.clicked_season = -1
@@ -87,6 +88,7 @@ class GamepassGUI(xbmcgui.WindowXML):
         self.list_refill = False
         self.focusId = 100
         self.seasons_and_weeks = gpr.get_seasons_and_weeks()
+        self.textbox = None
 
         xbmcgui.WindowXML.__init__(self, *args, **kwargs)
         self.action_previous_menu = (9, 10, 92, 216, 247, 257, 275, 61467, 61448)
@@ -116,6 +118,10 @@ class GamepassGUI(xbmcgui.WindowXML):
 
         xbmc.executebuiltin("Dialog.Close(busydialog)")
 
+        if overlay_scores:
+            self.textbox = self.window.getControl(250)
+            self.textbox.setText('TEST vs TEST')
+            self.textbox.setVisible(True)
         try:
             self.setFocus(self.window.getControl(self.focusId))
         except:

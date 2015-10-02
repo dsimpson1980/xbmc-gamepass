@@ -721,5 +721,15 @@
             <showonepage>false</showonepage>
             <orientation>vertical</orientation>
         </control>
+        <control type="textbox" id="250">
+            <posx>660</posx>
+            <posy>650</posy>
+            <width>600</width>
+            <height>60</height>
+            <font>font12</font>
+            <align>left</align>
+            <textcolor>C0FFFFFF</textcolor>
+            <shadowcolor>C0000000</shadowcolor>
+        </control>
     </controls>
 </window>
