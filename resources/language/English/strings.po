@@ -176,3 +176,7 @@ msgstr ""
 msgctxt "#30043"
 msgid "Fantasy"
 msgstr ""
+
+msgctxt "#30044"
+msgid "Overlay Fantasy Football League Scores"
+msgstr ""

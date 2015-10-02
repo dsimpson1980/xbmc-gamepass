@@ -26,5 +26,6 @@
     <setting id="debug" type="bool" label="Add-on debugging" default="false"/>
   </category>
   <category label="30043">
+    <setting id="overlay_scores" type="bool" label="30044" default="false" />
   </category>
 </settings>
