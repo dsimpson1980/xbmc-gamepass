@@ -42,9 +42,11 @@ else:
     debug = True
 overlay_scores = addon.getSetting('overlay_scores')
 if overlay_scores:
+    league_key = addon.getSetting('league_key')
+    points_idx = int(addon.getSetting('points_type'))
+    points_type = ['points', 'projected_points'][points_idx]
     y3 = yahoo_tools.get_y3()
     token = yahoo_tools.get_token(y3)
-    league_key = addon.getSetting('league_key')
     matchups = yahoo_tools.get_matchup_points(y3, token, league_key)
 
 proxy_config = None
@@ -122,7 +124,7 @@ class GamepassGUI(xbmcgui.WindowXML):
 
         if overlay_scores:
             self.textbox = self.window.getControl(250)
-            txt = matchups[0][0]['name'] + ' ' + matchups[0][0]['points']
+            txt = matchups[0][0]['name'] + ' ' + matchups[0][0][points_type]
             self.textbox.setText(txt)
             self.textbox.setVisible(True)
         try:
