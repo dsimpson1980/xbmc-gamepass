@@ -25,4 +25,6 @@
   <category label="30031">
     <setting id="debug" type="bool" label="Add-on debugging" default="false"/>
   </category>
+  <category label="30043">
+  </category>
 </settings>
