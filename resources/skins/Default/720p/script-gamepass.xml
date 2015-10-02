@@ -724,7 +724,17 @@
         <control type="textbox" id="250">
             <posx>660</posx>
             <posy>590</posy>
-            <width>600</width>
+            <width>300</width>
+            <height>120</height>
+            <font>font12</font>
+            <align>right</align>
+            <textcolor>C0FFFFFF</textcolor>
+            <shadowcolor>C0000000</shadowcolor>
+        </control>
+        <control type="textbox" id="251">
+            <posx>970</posx>
+            <posy>590</posy>
+            <width>300</width>
             <height>120</height>
             <font>font12</font>
             <align>left</align>

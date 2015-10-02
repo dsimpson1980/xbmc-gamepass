@@ -123,13 +123,17 @@ class GamepassGUI(xbmcgui.WindowXML):
         xbmc.executebuiltin("Dialog.Close(busydialog)")
 
         if overlay_scores:
-            self.textbox = self.window.getControl(250)
-            txt = ''
+            self.left_textbox = self.window.getControl(250)
+            self.right_textbox = self.window.getControl(251)
+            left_txt = ''
+            right_txt = ''
             for matchup in matchups:
-                txt += ' '.join([matchup[0]['name'], matchup[0][points_type],
-                                'vs', matchup[1][points_type], matchup[1]['name'], '\n'])
-            self.textbox.setText(txt)
-            self.textbox.setVisible(True)
+               left_txt += ' '.join([matchup[0]['name'], matchup[0][points_type], '\n'])
+               right_txt += ' '.join([matchup[1][points_type], matchup[1]['name'], '\n'])
+            self.left_textbox.setText(left_txt)
+            self.left_textbox.setVisible(True)
+            self.right_textbox.setText(right_txt)
+            self.right_textbox.setVisible(True)
         try:
             self.setFocus(self.window.getControl(self.focusId))
         except:
