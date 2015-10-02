@@ -734,9 +734,9 @@
         </control>
         <control type="textbox" id="250">
             <posx>660</posx>
-            <posy>590</posy>
+            <posy>560</posy>
             <width>300</width>
-            <height>120</height>
+            <height>150</height>
             <font>font12</font>
             <align>right</align>
             <textcolor>C0FFFFFF</textcolor>
@@ -744,9 +744,9 @@
         </control>
         <control type="textbox" id="251">
             <posx>970</posx>
-            <posy>590</posy>
+            <posy>560</posy>
             <width>300</width>
-            <height>120</height>
+            <height>150</height>
             <font>font12</font>
             <align>left</align>
             <textcolor>C0FFFFFF</textcolor>

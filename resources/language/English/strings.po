@@ -196,3 +196,7 @@ msgstr ""
 msgctxt "#30048"
 msgid "Projected Points"
 msgstr ""
+
+msgctxt "#30049"
+msgid "Refresh Rate in seconds"
+msgstr ""

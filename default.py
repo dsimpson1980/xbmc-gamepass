@@ -8,6 +8,7 @@ import os
 import sys
 import time
 from traceback import format_exc
+import threading
 
 import xbmc
 import xbmcaddon
@@ -132,6 +133,7 @@ class GamepassGUI(xbmcgui.WindowXML):
             addon_log('Focus not possible: %s' % self.focusId)
 
     def update_textboxes(self):
+        refresh_rate = int(addon.getSetting('refresh_rate'))
         points_idx = int(addon.getSetting('points_type'))
         points_type = ['points', 'projected_points'][points_idx]
         left_txt = ''
@@ -139,8 +141,11 @@ class GamepassGUI(xbmcgui.WindowXML):
         for matchup in matchups:
            left_txt += ' '.join([matchup[0]['name'], matchup[0][points_type], '\n'])
            right_txt += ' '.join([matchup[1][points_type], matchup[1]['name'], '\n'])
+        left_txt += 'last updated'
+        right_txt += str(time.ctime())
         self.left_textbox.setText(left_txt)
         self.right_textbox.setText(right_txt)
+        threading.Timer(refresh_rate, self.update_textboxes).start()
 
     def coloring(self, text, meaning):
         """Return the text wrapped in appropriate color markup."""

@@ -29,5 +29,6 @@
     <setting id="overlay_scores" type="bool" label="30044" default="false" />
     <setting id="league_key" type="text" label="30045" default="" enable="eq(-1,true)" />
     <setting id="points_type" type="enum" label="30046" lvalues="30047|30048" default='0' enable="eq(-2,true)" />
+    <setting id="refresh_rate" type="labelenum" label="30049" values="60|30|10" default='10' enable="eq(-3,true)" />
   </category>
 </settings>
