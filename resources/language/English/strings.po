@@ -184,3 +184,15 @@ msgstr ""
 msgctxt "#30045"
 msgid "League Key in the form XXX.l.XXXX"
 msgstr ""
+
+msgctxt "#30046"
+msgid "Type of points to display in overlay"
+msgstr ""
+
+msgctxt "#30047"
+msgid "Points"
+msgstr ""
+
+msgctxt "#30048"
+msgid "Projected Points"
+msgstr ""
