@@ -15,6 +15,7 @@ import xbmcgui
 import xbmcvfs
 
 from resources.lib.pigskin import pigskin
+from resources.lib import yahoo_tools
 
 addon = xbmcaddon.Addon()
 language = addon.getLocalizedString
@@ -39,6 +40,10 @@ if addon.getSetting('debug') == 'false':
     debug = False
 else:
     debug = True
+overlay_scores = addon.getSetting('overlay_scores')
+if overlay_scores:
+    y3 = yahoo_tools.get_y3()
+    token = yahoo_tools.get_token(y3)
 
 proxy_config = None
 if addon.getSetting('proxy_enabled') == 'true':
