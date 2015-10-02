@@ -92,7 +92,6 @@ class GamepassGUI(xbmcgui.WindowXML):
         self.list_refill = False
         self.focusId = 100
         self.seasons_and_weeks = gpr.get_seasons_and_weeks()
-        self.textbox = None
 
         xbmcgui.WindowXML.__init__(self, *args, **kwargs)
         self.action_previous_menu = (9, 10, 92, 216, 247, 257, 275, 61467, 61448)
@@ -124,20 +123,25 @@ class GamepassGUI(xbmcgui.WindowXML):
 
         if overlay_scores:
             self.left_textbox = self.window.getControl(250)
-            self.right_textbox = self.window.getControl(251)
-            left_txt = ''
-            right_txt = ''
-            for matchup in matchups:
-               left_txt += ' '.join([matchup[0]['name'], matchup[0][points_type], '\n'])
-               right_txt += ' '.join([matchup[1][points_type], matchup[1]['name'], '\n'])
-            self.left_textbox.setText(left_txt)
             self.left_textbox.setVisible(True)
-            self.right_textbox.setText(right_txt)
+            self.right_textbox = self.window.getControl(251)
             self.right_textbox.setVisible(True)
+            self.update_textboxes()
+
         try:
             self.setFocus(self.window.getControl(self.focusId))
         except:
             addon_log('Focus not possible: %s' % self.focusId)
+
+    def update_textboxes(self):
+        left_txt = ''
+        right_txt = ''
+        for matchup in matchups:
+           left_txt += ' '.join([matchup[0]['name'], matchup[0][points_type], '\n'])
+           right_txt += ' '.join([matchup[1][points_type], matchup[1]['name'], '\n'])
+        self.left_textbox.setText(left_txt)
+        self.right_textbox.setText(right_txt)
+
 
     def coloring(self, text, meaning):
         """Return the text wrapped in appropriate color markup."""
