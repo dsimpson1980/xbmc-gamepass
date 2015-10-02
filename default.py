@@ -43,8 +43,6 @@ else:
 overlay_scores = addon.getSetting('overlay_scores')
 if overlay_scores:
     league_key = addon.getSetting('league_key')
-    points_idx = int(addon.getSetting('points_type'))
-    points_type = ['points', 'projected_points'][points_idx]
     y3 = yahoo_tools.get_y3()
     token = yahoo_tools.get_token(y3)
     matchups = yahoo_tools.get_matchup_points(y3, token, league_key)
@@ -134,6 +132,8 @@ class GamepassGUI(xbmcgui.WindowXML):
             addon_log('Focus not possible: %s' % self.focusId)
 
     def update_textboxes(self):
+        points_idx = int(addon.getSetting('points_type'))
+        points_type = ['points', 'projected_points'][points_idx]
         left_txt = ''
         right_txt = ''
         for matchup in matchups:
@@ -141,7 +141,6 @@ class GamepassGUI(xbmcgui.WindowXML):
            right_txt += ' '.join([matchup[1][points_type], matchup[1]['name'], '\n'])
         self.left_textbox.setText(left_txt)
         self.right_textbox.setText(right_txt)
-
 
     def coloring(self, text, meaning):
         """Return the text wrapped in appropriate color markup."""
@@ -413,6 +412,10 @@ class GamepassGUI(xbmcgui.WindowXML):
     def onClick(self, controlId):  # pylint: disable=invalid-name
         try:
             xbmc.executebuiltin("ActivateWindow(busydialog)")
+            if controlId == 91:
+                new_points = '1' if addon.getSetting('points_type') == '0' else '0'
+                addon.setSetting('points_type', new_points)
+                self.update_textboxes()
             if controlId in [110, 120, 130]:
                 self.games_list.reset()
                 self.weeks_list.reset()

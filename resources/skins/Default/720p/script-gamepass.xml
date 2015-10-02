@@ -42,6 +42,17 @@
                   <texturefocus>GamePass/gp_int_focus.png</texturefocus>
                   <texturenofocus>GamePass/gp_int_normal.png</texturenofocus>
             </control>
+            <control type="button" id="91">
+                <description>Addon Settings button</description>
+                <left>450</left>
+                <width>56</width>
+                <height>56</height>
+                <ondown>210</ondown>
+                <onleft>130</onleft>
+                <onright>110</onright>
+                <texturefocus>GamePass/settings_focus.png</texturefocus>
+                <texturenofocus>GamePass/settings.png</texturenofocus>
+            </control>
             <control type="button" id="110">
                   <description>Domestic Gamepass button</description>
                   <visible>!IsEmpty(Window.Property(domestic))</visible>
