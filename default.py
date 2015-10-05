@@ -44,6 +44,11 @@ else:
 overlay_scores = {'true': True, 'false': False}[addon.getSetting('overlay_scores')]
 if overlay_scores:
     league_key = addon.getSetting('league_key')
+    display_team_names = addon.getSetting('display_team_names')
+    # if display_team_names == 'full':
+    #     format_name = lambda x: x
+    # else:
+    format_name = lambda x: ''.join([y[0] for y in x.split(' ')])
     y3 = yahoo_tools.get_y3()
     token = yahoo_tools.get_token(y3)
 
@@ -158,9 +163,9 @@ Dialogue: 0,0:00:00.00,0:05:30.00,Default,,0,0,0,,{\\an 3}{\\fs10}'''
                 colormu = '{\\c&FF0000}'
             else:
                 colormu = white
-            left_txt += ' '.join([matchup[0]['name'], matchup[0][points_type], '\n'])
-            subtext += white + matchup[0]['name'] + ' ' + colormu + matchup[0][points_type] + '\\N'
-            right_txt += ' '.join([matchup[1][points_type], matchup[1]['name'], '\n'])
+            left_txt += ' '.join([format_name(matchup[0]['name']), matchup[0][points_type], '\n'])
+            subtext += white + format_name(matchup[0]['name']) + ' ' + colormu + matchup[0][points_type] + '\\N'
+            right_txt += ' '.join([matchup[1][points_type], format_name(matchup[1]['name']), '\n'])
         self.matchups = matchups
         left_txt += 'last updated'
         right_txt += str(time.ctime())
@@ -341,9 +346,6 @@ Dialogue: 0,0:00:00.00,0:05:30.00,Default,,0,0,0,,{\\an 3}{\\fs10}'''
         xbmc.executebuiltin("Dialog.Close(busydialog)")
         self.list_refill = True
         self.player.play(url)
-        if overlay_scores:
-            self.player.setSubtitles('/Users/davidsimpson/Movies/TV Shows/test copy.ass')
-            self.player.showSubtitles(True)
 
     def init(self, level):
         if level == 'season':
@@ -448,10 +450,10 @@ Dialogue: 0,0:00:00.00,0:05:30.00,Default,,0,0,0,,{\\an 3}{\\fs10}'''
     def onClick(self, controlId):  # pylint: disable=invalid-name
         try:
             xbmc.executebuiltin("ActivateWindow(busydialog)")
-            if controlId == 91:
-                new_points = '1' if addon.getSetting('points_type') == '0' else '0'
-                addon.setSetting('points_type', new_points)
-                self.update_textboxes()
+            # if controlId == 91:
+            #     new_points = '1' if addon.getSetting('points_type') == '0' else '0'
+            #     addon.setSetting('points_type', new_points)
+            #     self.update_textboxes()
             if controlId in [110, 120, 130]:
                 self.games_list.reset()
                 self.weeks_list.reset()

@@ -30,5 +30,6 @@
     <setting id="league_key" type="text" label="30045" default="" enable="eq(-1,true)" />
     <setting id="points_type" type="enum" label="30046" lvalues="30047|30048" default='0' enable="eq(-2,true)" />
     <setting id="refresh_rate" type="labelenum" label="30049" values="60|30|10" default='10' enable="eq(-3,true)" />
+    <setting id="display_team_names" type="labelenum" label="30050" values="full|initials" default='initials' enable="eq(-4,true)" />
   </category>
 </settings>
