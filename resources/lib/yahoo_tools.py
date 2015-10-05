@@ -97,8 +97,8 @@ def get_matchup_points(y3, token, league_key):
             dict of name, points, and projected_points
         """
         result = dict(name=team['name'])
-        result['points'] = team['team_points']['total']
-        result['projected_points'] = team['team_projected_points']['total']
+        result['points'] = float(team['team_points']['total'])
+        result['projected_points'] = float(team['team_projected_points']['total'])
         return result
     matchups = [[extract_matchup(t) for t in m['teams']['team']] for m in matchups]
     return matchups

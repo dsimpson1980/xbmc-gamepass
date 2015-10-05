@@ -158,14 +158,23 @@ Dialogue: 0,0:00:00.00,0:05:30.00,Default,,0,0,0,,{\\an 3}{\\fs10}'''
         for n, matchup in enumerate(matchups):
             old_matchup = self.matchups[n]
             if old_matchup[0][points_type] < matchup[0][points_type]:
-                colormu = '{\\c&00FF00}'
+                left_colormu = '{\\c&00FF00}' #green
             elif old_matchup[0][points_type] > matchup[0][points_type]:
-                colormu = '{\\c&FF0000}'
+                left_colormu = '{\\c&0000FF}' #red
             else:
-                colormu = white
-            left_txt += ' '.join([format_name(matchup[0]['name']), matchup[0][points_type], '\n'])
-            subtext += white + format_name(matchup[0]['name']) + ' ' + colormu + matchup[0][points_type] + '\\N'
-            right_txt += ' '.join([matchup[1][points_type], format_name(matchup[1]['name']), '\n'])
+                left_colormu = white
+            left_name = format_name(matchup[0]['name'])
+            left_txt += '%s %s\n' % (left_name, matchup[0][points_type])
+            subtext += '%s%s %s%s ' % (white, left_name, left_colormu, matchup[0][points_type])
+            if old_matchup[1][points_type] < matchup[1][points_type]:
+                right_colormu = '{\\c&00FF00}'
+            elif old_matchup[1][points_type] > matchup[1][points_type]:
+                right_colormu = '{\\c&FF0000}'
+            else:
+                right_colormu = white
+            right_name = format_name(matchup[1]['name'])
+            right_txt += '%s %s\n' % (matchup[1][points_type], right_name)
+            subtext += '%s%s %s%s\\N' % (right_colormu, matchup[1][points_type], white, right_name)
         self.matchups = matchups
         left_txt += 'last updated'
         right_txt += str(time.ctime())
