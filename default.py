@@ -315,8 +315,9 @@ class GamepassGUI(xbmcgui.WindowXML):
         xbmc.executebuiltin("Dialog.Close(busydialog)")
         self.list_refill = True
         self.player.play(url)
-        self.player.setSubtitles('/Users/davidsimpson/Movies/TV Shows/test.ass')
-        self.player.showSubtitles(True)
+        if overlay_scores:
+            self.player.setSubtitles('/Users/davidsimpson/Movies/TV Shows/test.ass')
+            self.player.showSubtitles(True)
 
     def init(self, level):
         if level == 'season':
