@@ -92,7 +92,13 @@ class GamepassGUI(xbmcgui.WindowXML):
         self.focusId = 100
         self.seasons_and_weeks = gpr.get_seasons_and_weeks()
         self.player = xbmc.Player()
+        self.d = '''[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,1
 
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:05:30.00,Default,,0,0,0,,{\\an 3}{\\fs10}'''
 
         xbmcgui.WindowXML.__init__(self, *args, **kwargs)
         self.action_previous_menu = (9, 10, 92, 216, 247, 257, 275, 61467, 61448)
@@ -140,13 +146,22 @@ class GamepassGUI(xbmcgui.WindowXML):
         points_type = ['points', 'projected_points'][points_idx]
         left_txt = ''
         right_txt = ''
+        subtext = ''
         for matchup in matchups:
            left_txt += ' '.join([matchup[0]['name'], matchup[0][points_type], '\n'])
+           subtext += ' '.join([matchup[0]['name'], matchup[0][points_type], '\\N'])
            right_txt += ' '.join([matchup[1][points_type], matchup[1]['name'], '\n'])
         left_txt += 'last updated'
         right_txt += str(time.ctime())
+        subtext += str(time.ctime())
         self.left_textbox.setText(left_txt)
         self.right_textbox.setText(right_txt)
+        filename = '/Users/davidsimpson/Movies/TV Shows/test_copy.ass'
+        txt = self.d + subtext
+        with open(filename, 'w') as f:
+            f.write(txt)
+        self.player.setSubtitles(filename)
+        self.player.showSubtitles(True)
         threading.Timer(refresh_rate, self.update_textboxes).start()
 
     def coloring(self, text, meaning):
@@ -316,7 +331,7 @@ class GamepassGUI(xbmcgui.WindowXML):
         self.list_refill = True
         self.player.play(url)
         if overlay_scores:
-            self.player.setSubtitles('/Users/davidsimpson/Movies/TV Shows/test.ass')
+            self.player.setSubtitles('/Users/davidsimpson/Movies/TV Shows/test copy.ass')
             self.player.showSubtitles(True)
 
     def init(self, level):
