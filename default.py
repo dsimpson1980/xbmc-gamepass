@@ -104,7 +104,7 @@ Style: Default,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
-Dialogue: 0,0:00:00.00,0:05:30.00,Default,,0,0,0,,{\\an 3}{\\fs10}'''
+Dialogue: 0,0:00:00.00,23:00:00.00,Default,,0,0,0,,{\\an 3}{\\fs10}'''
 
         xbmcgui.WindowXML.__init__(self, *args, **kwargs)
         self.action_previous_menu = (9, 10, 92, 216, 247, 257, 275, 61467, 61448)
