@@ -41,7 +41,7 @@ if addon.getSetting('debug') == 'false':
     debug = False
 else:
     debug = True
-overlay_scores = addon.getSetting('overlay_scores')
+overlay_scores = {'true': True, 'false': False}[addon.getSetting('overlay_scores')]
 if overlay_scores:
     league_key = addon.getSetting('league_key')
     y3 = yahoo_tools.get_y3()
