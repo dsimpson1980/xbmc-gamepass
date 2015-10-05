@@ -91,6 +91,8 @@ class GamepassGUI(xbmcgui.WindowXML):
         self.list_refill = False
         self.focusId = 100
         self.seasons_and_weeks = gpr.get_seasons_and_weeks()
+        self.player = xbmc.Player()
+
 
         xbmcgui.WindowXML.__init__(self, *args, **kwargs)
         self.action_previous_menu = (9, 10, 92, 216, 247, 257, 275, 61467, 61448)
@@ -312,7 +314,7 @@ class GamepassGUI(xbmcgui.WindowXML):
     def play_url(self, url):
         xbmc.executebuiltin("Dialog.Close(busydialog)")
         self.list_refill = True
-        xbmc.Player().play(url)
+        self.player.play(url)
 
     def init(self, level):
         if level == 'season':
