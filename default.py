@@ -46,7 +46,6 @@ if overlay_scores:
     league_key = addon.getSetting('league_key')
     y3 = yahoo_tools.get_y3()
     token = yahoo_tools.get_token(y3)
-    matchups = yahoo_tools.get_matchup_points(y3, token, league_key)
 
 proxy_config = None
 if addon.getSetting('proxy_enabled') == 'true':
@@ -92,6 +91,8 @@ class GamepassGUI(xbmcgui.WindowXML):
         self.focusId = 100
         self.seasons_and_weeks = gpr.get_seasons_and_weeks()
         self.player = xbmc.Player()
+        if overlay_scores:
+            self.matchups = yahoo_tools.get_matchup_points(y3, token, league_key)
         self.d = '''[V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
 Style: Default,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,1
@@ -141,16 +142,26 @@ Dialogue: 0,0:00:00.00,0:05:30.00,Default,,0,0,0,,{\\an 3}{\\fs10}'''
             addon_log('Focus not possible: %s' % self.focusId)
 
     def update_textboxes(self):
+        matchups = yahoo_tools.get_matchup_points(y3, token, league_key)
         refresh_rate = int(addon.getSetting('refresh_rate'))
         points_idx = int(addon.getSetting('points_type'))
         points_type = ['points', 'projected_points'][points_idx]
         left_txt = ''
         right_txt = ''
         subtext = ''
-        for matchup in matchups:
-           left_txt += ' '.join([matchup[0]['name'], matchup[0][points_type], '\n'])
-           subtext += ' '.join([matchup[0]['name'], matchup[0][points_type], '\\N'])
-           right_txt += ' '.join([matchup[1][points_type], matchup[1]['name'], '\n'])
+        white = '{\\c&FFFFFF}'
+        for n, matchup in enumerate(matchups):
+            old_matchup = self.matchups[n]
+            if old_matchup[0][points_type] < matchup[0][points_type]:
+                colormu = '{\\c&00FF00}'
+            elif old_matchup[0][points_type] > matchup[0][points_type]:
+                colormu = '{\\c&FF0000}'
+            else:
+                colormu = white
+            left_txt += ' '.join([matchup[0]['name'], matchup[0][points_type], '\n'])
+            subtext += white + matchup[0]['name'] + ' ' + colormu + matchup[0][points_type] + '\\N'
+            right_txt += ' '.join([matchup[1][points_type], matchup[1]['name'], '\n'])
+        self.matchups = matchups
         left_txt += 'last updated'
         right_txt += str(time.ctime())
         subtext += str(time.ctime())
