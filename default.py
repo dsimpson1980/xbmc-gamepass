@@ -361,6 +361,8 @@ Dialogue: 0,0:00:00.00,9:59:59.00,Default,,0,0,0,,{\\an 3}{\\fs10}'''
         xbmc.executebuiltin("Dialog.Close(busydialog)")
         self.list_refill = True
         self.player.play(url)
+        self.thread.cancel()
+        self.update_textboxes()
 
     def init(self, level):
         if level == 'season':
