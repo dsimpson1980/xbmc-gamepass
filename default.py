@@ -51,6 +51,8 @@ if overlay_scores:
         format_name = lambda x: ''.join([y[0] for y in x.split(' ')])
     y3 = yahoo_tools.get_y3()
     token = yahoo_tools.get_token(y3)
+    tempdir = xbmc.translatePath('special://temp/')
+    subtitle_filename = os.path.join(tempdir, 'yff_scores.ass')
 
 proxy_config = None
 if addon.getSetting('proxy_enabled') == 'true':
@@ -107,7 +109,6 @@ Style: Default,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 Dialogue: 0,0:00:00.00,9:59:59.00,Default,,0,0,0,,{\\an 3}{\\fs10}'''
-
         xbmcgui.WindowXML.__init__(self, *args, **kwargs)
         self.action_previous_menu = (9, 10, 92, 216, 247, 257, 275, 61467, 61448)
 
@@ -183,11 +184,10 @@ Dialogue: 0,0:00:00.00,9:59:59.00,Default,,0,0,0,,{\\an 3}{\\fs10}'''
         subtext += str(time.ctime())
         self.left_textbox.setText(left_txt)
         self.right_textbox.setText(right_txt)
-        filename = '/Users/davidsimpson/Movies/TV Shows/test_copy.ass'
         txt = self.d + subtext
-        with open(filename, 'w') as f:
+        with open(subtitle_filename, 'w') as f:
             f.write(txt)
-        self.player.setSubtitles(filename)
+        self.player.setSubtitles(subtitle_filename)
         self.player.showSubtitles(True)
         self.thread = threading.Timer(refresh_rate, self.update_textboxes)
         self.thread.daemon = True
