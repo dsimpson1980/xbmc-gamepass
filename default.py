@@ -154,10 +154,10 @@ Dialogue: 0,0:00:00.00,9:59:59.00,Default,,0,0,0,,{\\an 3}{\\fs10}'''
         refresh_rate = int(addon.getSetting('refresh_rate'))
         points_idx = int(addon.getSetting('points_type'))
         points_type = ['points', 'projected_points'][points_idx]
-        left_txt = ''
-        right_txt = ''
-        subtext = ''
+        left_txt = right_txt = subtext = ''
         white = '{\\c&FFFFFF}'
+        max_len = max([max(len(format_name(m[0]['name'])),
+                           len(format_name(m[1]['name']))) for m in self.matchups])
         for n, matchup in enumerate(matchups):
             old_matchup = self.matchups[n]
             if old_matchup[0][points_type] < matchup[0][points_type]:
@@ -166,18 +166,18 @@ Dialogue: 0,0:00:00.00,9:59:59.00,Default,,0,0,0,,{\\an 3}{\\fs10}'''
                 left_colormu = '{\\c&0000FF}' #red
             else:
                 left_colormu = white
-            left_name = format_name(matchup[0]['name'])
+            left_name, left_points = format_name(matchup[0]['name']), format(matchup[0][points_type], '3.2f')
             left_txt += '%s %s\n' % (left_name, matchup[0][points_type])
-            subtext += '%s%s %s%s ' % (white, left_name, left_colormu, matchup[0][points_type])
+            subtext += '%s%s%s %s%s ' % (white, left_name, left_colormu, ' ' * (6 - len(left_points)), left_points)
             if old_matchup[1][points_type] < matchup[1][points_type]:
                 right_colormu = '{\\c&00FF00}'
             elif old_matchup[1][points_type] > matchup[1][points_type]:
                 right_colormu = '{\\c&FF0000}'
             else:
                 right_colormu = white
-            right_name = format_name(matchup[1]['name'])
-            right_txt += '%s %s\n' % (matchup[1][points_type], right_name)
-            subtext += '%s%s %s%s\\N' % (right_colormu, matchup[1][points_type], white, right_name)
+            right_name, right_points = format_name(matchup[1]['name']), format(matchup[1][points_type], '3.2f')
+            right_txt += '%s %s\n' % (right_points, right_name)
+            subtext += '%s%s%s %s%s%s |\\N' % (right_colormu, ' ' * (6 - len(right_points)), right_points, white, right_name, ' ' * (max_len - len(right_name)))
         self.matchups = matchups
         left_txt += 'last updated'
         right_txt += str(time.ctime())
