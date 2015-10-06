@@ -102,7 +102,7 @@ class GamepassGUI(xbmcgui.WindowXML):
 
         if overlay_scores:
             self.matchups = yahoo_tools.get_matchup_points(y3, token, league_key)
-        self.d = '''[V4+ Styles]
+            self.d = '''[V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
 Style: Default,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,1
 
@@ -463,10 +463,6 @@ Dialogue: 0,0:00:00.00,9:59:59.00,Default,,0,0,0,,{\\an 3}{\\fs10}'''
     def onClick(self, controlId):  # pylint: disable=invalid-name
         try:
             xbmc.executebuiltin("ActivateWindow(busydialog)")
-            # if controlId == 91:
-            #     new_points = '1' if addon.getSetting('points_type') == '0' else '0'
-            #     addon.setSetting('points_type', new_points)
-            #     self.update_textboxes()
             if controlId in [110, 120, 130]:
                 self.games_list.reset()
                 self.weeks_list.reset()
