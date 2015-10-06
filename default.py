@@ -45,10 +45,10 @@ overlay_scores = {'true': True, 'false': False}[addon.getSetting('overlay_scores
 if overlay_scores:
     league_key = addon.getSetting('league_key')
     display_team_names = addon.getSetting('display_team_names')
-    # if display_team_names == 'full':
-    #     format_name = lambda x: x
-    # else:
-    format_name = lambda x: ''.join([y[0] for y in x.split(' ')])
+    if display_team_names == 'full':
+        format_name = lambda x: x
+    else:
+        format_name = lambda x: ''.join([y[0] for y in x.split(' ')])
     y3 = yahoo_tools.get_y3()
     token = yahoo_tools.get_token(y3)
 
