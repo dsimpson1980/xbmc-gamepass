@@ -463,6 +463,11 @@ Dialogue: 0,0:00:00.00,9:59:59.00,Default,,0,0,0,,{\\an 3}{\\fs10}'''
     def onClick(self, controlId):  # pylint: disable=invalid-name
         try:
             xbmc.executebuiltin("ActivateWindow(busydialog)")
+            if controlId == 91:
+                new_points = '1' if addon.getSetting('points_type') == '0' else '0'
+                addon.setSetting('points_type', new_points)
+                self.thread.cancel()
+                self.update_textboxes()
             if controlId in [110, 120, 130]:
                 self.games_list.reset()
                 self.weeks_list.reset()
