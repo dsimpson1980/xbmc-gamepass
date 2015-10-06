@@ -53,6 +53,7 @@ if overlay_scores:
     token = yahoo_tools.get_token(y3)
     tempdir = xbmc.translatePath('special://temp/')
     subtitle_filename = os.path.join(tempdir, 'yff_scores.ass')
+    white = '{\\c&FFFFFF}'
 
 proxy_config = None
 if addon.getSetting('proxy_enabled') == 'true':
@@ -154,44 +155,45 @@ Dialogue: 0,0:00:00.00,9:59:59.00,Default,,0,0,0,,{\\an 3}{\\fs10}'''
         refresh_rate = int(addon.getSetting('refresh_rate'))
         points_idx = int(addon.getSetting('points_type'))
         points_type = ['points', 'projected_points'][points_idx]
-        left_txt = right_txt = subtext = ''
-        white = '{\\c&FFFFFF}'
+        subtext = ''
+        txt = ['', '']
         max_len = max([max(len(format_name(m[0]['name'])),
                            len(format_name(m[1]['name']))) for m in self.matchups])
         for n, matchup in enumerate(matchups):
-            old_matchup = self.matchups[n]
-            if old_matchup[0][points_type] < matchup[0][points_type]:
-                left_colormu = '{\\c&00FF00}' #green
-            elif old_matchup[0][points_type] > matchup[0][points_type]:
-                left_colormu = '{\\c&0000FF}' #red
-            else:
-                left_colormu = white
-            left_name, left_points = format_name(matchup[0]['name']), format(matchup[0][points_type], '3.2f')
-            left_txt += '%s %s\n' % (left_name, matchup[0][points_type])
-            subtext += '%s%s%s %s%s ' % (white, left_name, left_colormu, ' ' * (6 - len(left_points)), left_points)
-            if old_matchup[1][points_type] < matchup[1][points_type]:
-                right_colormu = '{\\c&00FF00}'
-            elif old_matchup[1][points_type] > matchup[1][points_type]:
-                right_colormu = '{\\c&FF0000}'
-            else:
-                right_colormu = white
-            right_name, right_points = format_name(matchup[1]['name']), format(matchup[1][points_type], '3.2f')
-            right_txt += '%s %s\n' % (right_points, right_name)
-            subtext += '%s%s%s %s%s%s |\\N' % (right_colormu, ' ' * (6 - len(right_points)), right_points, white, right_name, ' ' * (max_len - len(right_name)))
+            for m, team in enumerate(matchup):
+                old_matchup = self.matchups[n][m]
+                colormu = self.get_score_color(old_matchup[points_type], team[points_type])
+                name = format_name(team['name'])
+                points = format(team[points_type], '3.2f')
+                if m == 0:
+                    txt[m] += '%s %s\n' % (name, points)
+                    subtext += '%s%s%s %s%s ' % (
+                        white, name, colormu, ' ' * (6 - len(points)), points)
+                else:
+                    txt[m] += '%s %s\n' % (points, name)
+                    subtext += '%s%s%s %s%s%s |\\N' % (
+                        colormu, ' ' * (6 - len(points)), points, white, name,
+                        ' ' * (max_len - len(name)))
+        self.left_textbox.setText(txt[0] + 'last updated')
+        self.right_textbox.setText(txt[1] + str(time.ctime()))
         self.matchups = matchups
-        left_txt += 'last updated'
-        right_txt += str(time.ctime())
-        subtext += str(time.ctime())
-        self.left_textbox.setText(left_txt)
-        self.right_textbox.setText(right_txt)
-        txt = self.d + subtext
         with open(subtitle_filename, 'w') as f:
-            f.write(txt)
+            f.write(self.d + subtext)
         self.player.setSubtitles(subtitle_filename)
         self.player.showSubtitles(True)
         self.thread = threading.Timer(refresh_rate, self.update_textboxes)
         self.thread.daemon = True
         self.thread.start()
+
+    @staticmethod
+    def get_score_color(old_score, new_score):
+        if old_score < new_score:
+            colormu = '{\\c&00FF00}' #green
+        elif old_score > new_score:
+            colormu = '{\\c&0000FF}' #red
+        else:
+            colormu = '{\\c&FFFFFF}' #white
+        return colormu
 
     def coloring(self, text, meaning):
         """Return the text wrapped in appropriate color markup."""
