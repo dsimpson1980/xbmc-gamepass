@@ -96,6 +96,8 @@ class GamepassGUI(xbmcgui.WindowXML):
         self.focusId = 100
         self.seasons_and_weeks = gpr.get_seasons_and_weeks()
         self.player = xbmc.Player()
+        self.thread = threading.Timer(1000, lambda: None)
+
         if overlay_scores:
             self.matchups = yahoo_tools.get_matchup_points(y3, token, league_key)
         self.d = '''[V4+ Styles]
@@ -187,7 +189,9 @@ Dialogue: 0,0:00:00.00,9:59:59.00,Default,,0,0,0,,{\\an 3}{\\fs10}'''
             f.write(txt)
         self.player.setSubtitles(filename)
         self.player.showSubtitles(True)
-        threading.Timer(refresh_rate, self.update_textboxes).start()
+        self.thread = threading.Timer(refresh_rate, self.update_textboxes)
+        self.thread.daemon = True
+        self.thread.start()
 
     def coloring(self, text, meaning):
         """Return the text wrapped in appropriate color markup."""
