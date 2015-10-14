@@ -25,7 +25,8 @@ def openChrome(url):
         subprocess.Popen(['open', '-a', 'Google Chrome', url])
     elif osAndroid:
         subprocess.Popen(
-            ['com.android.chrome/com.google.android.apps.chrome.Main', '-d',
+            ['am', 'start', '-n',
+             'com.android.chrome/com.google.android.apps.chrome.Main', '-d',
              url])
     else:
         xbmc.executebuiltin('XBMC.Notification(Info:,'+str(translation(30005))+'!,5000)')
