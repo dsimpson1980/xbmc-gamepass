@@ -418,6 +418,7 @@ class ThreeLegged(TwoLegged):
         """
 
         client = oauth.Client(self.consumer)
+        client.disable_ssl_certificate_validation = True
 
         params = {}
         params['oauth_callback'] = callback_url or 'oob'

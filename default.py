@@ -17,6 +17,7 @@ import xbmcvfs
 
 from resources.lib.pigskin import pigskin
 from resources.lib import yahoo_tools
+from resources.lib import chrome
 
 addon = xbmcaddon.Addon()
 language = addon.getLocalizedString
@@ -49,8 +50,8 @@ if overlay_scores:
         format_name = lambda x: x
     else:
         format_name = lambda x: ''.join([y[0] for y in x.split(' ')])
-    y3 = yahoo_tools.get_y3()
-    token = yahoo_tools.get_token(y3)
+    # y3 = yahoo_tools.get_y3()
+    # token = yahoo_tools.get_token(y3)
     tempdir = xbmc.translatePath('special://temp/')
     subtitle_filename = os.path.join(tempdir, 'yff_scores.ass')
     white = '{\\c&FFFFFF}'
@@ -659,7 +660,15 @@ if __name__ == "__main__":
         dialog.ok('Epic Failure',
                   language(30024))
         sys.exit(0)
+    if overlay_scores:
+        y3 = yahoo_tools.get_y3()
 
+        def get_token_dialog(auth_url):
+            chrome.openChrome(auth_url)
+            dialog = xbmcgui.Dialog()
+            verifier = dialog.input('Enter verifier code from yahoo\n(Webpage should have opened in Chrome)')
+            return verifier
+        token = yahoo_tools.get_token(y3, get_token_dialog)
     gui = GamepassGUI('script-gamepass.xml', ADDON_PATH)
     gui.doModal()
     del gui

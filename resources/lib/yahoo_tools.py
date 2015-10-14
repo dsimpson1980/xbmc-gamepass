@@ -3,7 +3,10 @@ import os
 from resources.lib import yql
 from resources.lib.yql.storage import FileTokenStore
 import config
+import xbmc
 
+cache_dir = os.path.join(xbmc.translatePath(
+    'special://userdata'), 'addon_data', 'plugin.video.nfl.gamepass')
 
 def get_y3():
     """Return an oauth connection from yql using consumer_key and
@@ -18,26 +21,28 @@ def get_y3():
     yql.ThreeLegged
     """
     consumer_key, consumer_secret = config.get_consumer_secret()
-    y3 = yql.ThreeLegged(consumer_key, consumer_secret, disable_ssl_certificate_validation=True)
+    y3 = yql.ThreeLegged(consumer_key, consumer_secret,
+                         disable_ssl_certificate_validation=True)
     return y3
 
-def get_token(y3, dialog=None):
+def get_token(y3, dialog=None, _cache_dir=None):
     """Check if there is a cached token and if so retrieve it else ask the user
     for a new token using dialog.
 
-    The cached token is stored in ~/YahooFF/
-
     Parameters
     ----------
-    y3:
-    dialog:
+    y3: yql.ThreeLegged
+        yql connection to use to query data
+    dialog: function
+        A dialog function that will interact with the user and return verifier
 
     Returns
     -------
     yql.YahooToken
         Either the cached token or a newly requested token
     """
-    _cache_dir = os.path.expanduser('~/YahooFF')
+    if _cache_dir is None:
+        _cache_dir = cache_dir
     if not os.access(_cache_dir, os.R_OK):
         os.mkdir(_cache_dir)
     token_store = FileTokenStore(_cache_dir, secret='sasfasdfdasfdaf')
